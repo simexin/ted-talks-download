@@ -89,7 +89,7 @@ def check_exec_posix(prog):
     return found
 
 
-def get_sub(tt_id, tt_intro, sub):
+def get_sub(tt_id, tt_intro, sub, lang):
     """Get TED Subtitle in JSON format & convert it to SRT Subtitle."""
 
     def srt_time(tst):
@@ -102,7 +102,7 @@ def get_sub(tt_id, tt_intro, sub):
 
     srt_content = ''
     tt_url = 'http://www.ted.com/talks'
-    sub_url = '{0}/subtitles/id/{1}/lang/{2}'.format(tt_url, tt_id, sub[-7:-4])
+    sub_url = '{0}/subtitles/id/{1}/lang/{2}'.format(tt_url, tt_id, lang)
     # Get JSON sub
     if FOUND:
         json_file = Popen(['wget', '-q', '-O', '-', sub_url],
@@ -150,10 +150,10 @@ def check_subs(tt_id, tt_intro, tt_video):
     it for english and spanish languages."""
     # Get the names for the subtitles (for english and spanish languages) only
     # if they not are already downloaded
-    subs = ("{0}.{1}.srt".format(tt_video[:-4], lang) for lang in
-            ('eng', 'spa'))
-    for sub in subs:
-        subtitle = get_sub(tt_id, tt_intro, sub)
+    langs = ('eng', 'zh-cn', 'zh-tw')
+    for sub in range(len(langs)):
+        subs = "{0}.{1}.srt".format(tt_video[:-4], lang)
+        subtitle = get_sub(tt_id, tt_intro, sub, lang)
         if subtitle:
             with open(sub, 'w') as srt_file:
                 srt_file.write(subtitle)
