@@ -148,11 +148,11 @@ def get_sub(tt_id, tt_intro, sub, lang):
 def check_subs(tt_id, tt_intro, tt_video):
     """Check if the subtitles for the talk exists and try to get them. Checks
     it for english and spanish languages."""
-    # Get the names for the subtitles (for english and spanish languages) only
-    # if they not are already downloaded
+    # Get the names for the subtitles (for english, chinese simplified, chinese
+    # traditional languages) only if they not are already downloaded
     langs = ('eng', 'zh-cn', 'zh-tw')
-    for sub in range(len(langs)):
-        subs = "{0}.{1}.srt".format(tt_video[:-4], lang)
+    for lang in langs:
+        sub = "{0}.{1}.srt".format(tt_video[:-4], lang)
         subtitle = get_sub(tt_id, tt_intro, sub, lang)
         if subtitle:
             with open(sub, 'w') as srt_file:
